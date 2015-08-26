@@ -1,0 +1,52 @@
+#Regresion Linear
+
+x = load('C:\data\ex2x.dat');
+y = load('C:\data\ex2y.dat');
+
+#abrir una ventana de la figura x y y
+figure;
+plot(x, y, 'o');
+ylabel('Heights in meters');
+xlabel('Age in years');
+
+#Almacenar el numero
+m = length(y); 
+
+# Agregar una columna de unos a x e inicializar alfa
+x = [ones(m, 1), x] ;
+alpha = 0.07;
+
+# aplicacion gradiente desecendente
+w = zeros(2, 1);
+c1 = w(1);
+c0 = w(2);
+while true
+    prevc1 = c1;
+	prevc0 = c0;
+	c1 = w(1) - alpha * (1/m) * ((x * w) - y)' * x(:, 1);
+	c0 = w(2) - alpha * (1/m) * ((x * w) - y)' * x(:, 2);
+	w(1) = c1;
+	w(2) = c0;
+
+	# comprobar para la convergencia
+	# printf('counter: %i, c1: %f, c0: %f\n', counter, c1, c0);
+	if abs(prevc1 - c1) < 0.0001 && abs(prevc0 - c0) < 0.0001 break;
+	endif
+
+endwhile
+printf('After gradient descent, w is \n');
+disp(w);
+
+# Trazar la forma recta
+hold on;
+plot(x(:, 2), x*w, '-');
+legend('Training data', 'Linear regression');
+
+# Hacer predicciones sobre las alturas de la edad de dos adultos 30 y 70
+printf('\nHacer predicciones sobre la edad 30\n');
+predictedX = [1, 30]
+predictedY = predictedX * w
+
+printf('\nAsegúrese predicción acerca de la altura de 30 años\n');
+predictedX = [1, 70]
+predictedY = predictedX * w

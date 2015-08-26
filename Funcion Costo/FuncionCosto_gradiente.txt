@@ -1,0 +1,44 @@
+x = load('ex2x.dat');
+y = load('ex2y.dat');
+
+% abierta una ventana nueva figura 
+plot(x, y, 'o');
+ylabel('Height in meters')
+xlabel('Age in years')
+
+m = length(y);
+x = [ones(m, 1), x]; % Añadir una columna de unos a x
+
+theta = zeros(size(x,2),1);
+alpha = 0.07;
+delta = ones(size(theta),1);
+
+while abs(max(delta(:))) > 0.00001
+  h = sum(x * theta,2);
+  err = h - y;
+  delta = x' * err / m;
+  theta = theta - alpha * delta;
+end
+
+hold on %nuevos datos sin borrar antigua dibujo
+plot(x(:,2), x*theta, '-') % recuerde que x es ahora una matriz con 2
+                           % columnas
+                           % Y la segunda columna contiene el
+                           % Información de tiempo
+legend('Training data', 'Linear regression')
+
+J_vals = zeros(100, 100);   % inicializar Jvals a 100x100 matriz de
+                            %0
+theta0_vals = linspace(-3, 3, 100);
+theta1_vals = linspace(-1, 1, 100);
+for i = 1:length(theta0_vals)
+  for j = 1:length(theta1_vals)
+    t = [theta0_vals(i); theta1_vals(j)];
+    h = sum(x * t);
+    J_vals(i,j) = sum((h - y).^2) / (2*m);
+  end
+end
+J_vals = J_vals';
+figura;
+surf(theta0_vals, theta1_vals, J_vals)
+xlabel('\theta_0'); ylabel('\theta_1')

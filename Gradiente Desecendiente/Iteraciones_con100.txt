@@ -1,0 +1,18 @@
+f=inline('x.^2');
+fp=inline('2*x');
+
+alpha=0.9;
+n_iter=100;
+x_i=4;
+x_path=[];
+for i=1:n_iter
+    x_i=x_i-alpha*fp(x_i);
+    x_path=[x_path x_i];
+end
+
+
+x_plot=-5:0.1:5;
+plot(x_plot,f(x_plot))
+hold on
+plot(x_path,f(x_path),'r+')
+plot(x_path,f(x_path),'b')

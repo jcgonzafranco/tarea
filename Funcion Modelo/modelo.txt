@@ -1,0 +1,23 @@
+x = load('C:\data\ex2x.dat');
+y = load('C:\data\ex2y.dat');
+
+#abrir una ventana de la figura x y y
+figure;
+plot(x, y, 'o');
+ylabel('Heights in meters');
+xlabel('Age in years');
+
+
+m= length(y); ;
+X = [ones(m, 1) x];
+W = zeros(size(X(1,:)))';;
+x_i=4;
+J = [];
+
+    J = sum(X * x_i);
+
+hold on
+X_plot=[0:0.1:max(x)];
+X_plot=[ones(1,size(X_plot,2));X_plot];
+plot(X_plot(2,:),W'*X_plot,'r')
+
